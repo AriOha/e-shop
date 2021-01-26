@@ -6,13 +6,56 @@ public class Product {
     private double price;
     private int discount;
 
-    Product(){
-        catalogId=startID++;
+    Product(String productName, double price, int discount) {
+        setProductName(productName);
+        catalogId = startID++;
+        setPrice(price);
+        setDiscount(discount);
     }
 
-    void changeUnitPrice(double newPrice){
+    public String getProductName() {
+        return productName;
     }
-    void changeDiscount(double newPrice){
+
+    public int getCatalogId() {
+        return catalogId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    //    TODO:Exceptions
+    public void setDiscount(int discount) {
+        if (0 <= discount && discount <= 100)
+            this.discount = discount;
+    }
+
+    //    TODO:Exceptions
+    public void setPrice(double price) {
+        if (price > 0)
+            this.price = price;
+    }
+
+
+    void changePrice(double newPrice) {
+        setPrice(newPrice);
+    }
+
+    void changeDiscount(int newDiscount) {
+        setDiscount(newDiscount);
+    }
+
+    void displayPrice() {
+        System.out.println(this);
     }
 
     @Override
