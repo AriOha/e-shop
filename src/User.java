@@ -1,13 +1,13 @@
-import Interfaces.Loggable;
 
-public class User implements Loggable {
+
+public class User {
 
     protected String userName;
     protected String password;
     protected boolean isLoggedIn = false;
 
 
-    User(String userName, String password){
+    User(String userName, String password) {
         setUserName(userName);
         setPassword(password);
     }
@@ -20,18 +20,30 @@ public class User implements Loggable {
         this.password = password;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     //    TODO: Exceptions
-    public void login(String userName, String password) {
-        if (this.userName.equals(userName)) {
-            if (this.password.equals(password)) {
+    public boolean login(User user) {
+        if (isLoggedIn) {
+            System.out.println("User Already logged in");
+            return false;
+        } else if (this.userName.equals(user.userName)) {
+            if (this.password.equals(user.password)) {
                 this.isLoggedIn = true;
                 System.out.println("Welcome " + userName + ".");
             } else
                 System.out.println("Wrong password.");
-
         } else
             System.out.println("Wrong username.");
+        return isLoggedIn;
     }
+
     public void logout() {
         this.isLoggedIn = false;
         System.out.println("Goodbye " + userName + ".");
