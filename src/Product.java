@@ -60,9 +60,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product name= " + productName +
+        return "\nProduct name= " + productName +
                 ", Catalog ID= " + catalogId +
                 ", Price= " + price +
                 ", Discount= " + discount;
     }
+
 }
