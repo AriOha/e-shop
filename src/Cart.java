@@ -1,11 +1,11 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Cart {
 
     static int startID = 1000;
-    Product[] productsList;
-    private final int cartId;
-    private int productsCounter;
+    ArrayList<Product> productsList;
+    private final int cartId, maxCapacity;
+    //    private int productsCounter;
     Customer ownedByCustomer;
     double totalPrice;
 
@@ -14,12 +14,13 @@ public class Cart {
         this(100);
     }
 
-    Cart(int maxProducts) {
-        this.productsList = new Product[maxProducts];
+    Cart(int maxCapacity) {
+        this.productsList = new ArrayList<>();
         ownedByCustomer = null;
         this.cartId = startID++;
-        this.productsCounter = 0;
+//        this.productsCounter = 0;
         this.totalPrice = 0;
+        this.maxCapacity = maxCapacity;
     }
 
     public int getCartId() {
@@ -30,48 +31,33 @@ public class Cart {
         return ownedByCustomer;
     }
 
-    public int getProductsCounter() {
-        return productsCounter;
-    }
 
     void addItem(Product p) {
         //TODO:
-        if (productsCounter < productsList.length) {
-            productsList[productsCounter++] = p;
+        if (productsList.size() < maxCapacity) {
+            productsList.add(p);
             System.out.println(p.getProductName() + " added to the cart");
         } else System.out.println("No product added");
     }
 
     void removeItem(int catalogId) {
         boolean notDeleted = true;
-        for (int i = 0; i < productsCounter && notDeleted; i++) {
-            if (productsList[i] != null)
-                if (productsList[i].getCatalogId() == catalogId) {
-                    productsList[i] = null;
-                    productsList = reorderProducts(productsList);
-                    notDeleted = false;
-                    productsCounter--;
-                System.out.println(productsList[i].getProductName() + " removed from cart");
-                }
+        for (int i = 0; i < productsList.size() && notDeleted; i++) {
+            if (productsList.get(i).getCatalogId() == catalogId) {
+                productsList.remove(i);
+                notDeleted = false;
+                System.out.println(productsList.get(i).getProductName() + " removed from cart");
+            }
         }
     }
 
     void emptyCart() {
-        Arrays.fill(productsList, null);
-        calculateTotal();
-        productsCounter = 0;
-    }
-
-    Product[] reorderProducts(Product[] unorderedList) {
-
-        Product[] products = new Product[unorderedList.length];
-        int numOfProducts = 0;
-        for (int i = 0; i < products.length; i++) {
-            if (unorderedList[i] != null)
-                products[numOfProducts++] = unorderedList[i];
+        try {
+            productsList.clear();
+            calculateTotal();
+        } catch (NullPointerException e) {
+            System.out.println("No cart to remove");
         }
-        return products;
-
     }
 
 
@@ -103,9 +89,7 @@ public class Cart {
 //        Updates the new totalPrice & returns the total price
         double newTotalPrice = 0;
         for (Product item : productsList)
-            if (item != null) {
-                newTotalPrice += item.getPrice();
-            }
+            newTotalPrice += item.getPrice();
         totalPrice = newTotalPrice;
         return totalPrice;
     }
@@ -120,10 +104,10 @@ public class Cart {
     }
 
 
-    private String toStringArrayNonNulls (Product[] a) {
+    private String toStringArrayNonNulls(Product[] a) {
         StringBuilder sb = new StringBuilder("" + a[0]);
         for (int i = 1; i < a.length; i++) {
-            if (a[i]!=null)
+            if (a[i] != null)
                 sb.append(", ").append(a[i]);
         }
         return sb.toString();
@@ -132,9 +116,9 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" +cartId+"}\n"+
-                 (ownedByCustomer != null ? "Belongs to: "+ ownedByCustomer.getUserName()+"\n" : "")+
-                "Shopping list:" + toStringArrayNonNulls(productsList) +
-                "\nTotal products: " + productsCounter+"\n==========";
+        return "Cart{" + cartId + "}\n" +
+                (ownedByCustomer != null ? "Belongs to: " + ownedByCustomer.getUserName() + "\n" : "") +
+                "Shopping list:" + productsList +
+                "\nTotal products: " + productsList.size() + "\n==========";
     }
 }
