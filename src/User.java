@@ -33,15 +33,13 @@ public class User {
         if (isLoggedIn) {
             System.out.println("User Already logged in");
             return false;
-        } else if (this.userName.equals(user.userName)) {
-            if (this.password.equals(user.password)) {
+        } else if (this.password.equals(user.password)) {
                 this.isLoggedIn = true;
                 System.out.println("Welcome " + userName + ".");
+                return true;
             } else
                 System.out.println("Wrong password.");
-        } else
-            System.out.println("Wrong username.");
-        return isLoggedIn;
+        return false;
     }
 
     public void logout() {

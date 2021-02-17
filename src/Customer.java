@@ -72,9 +72,11 @@ public class Customer extends User {
 
 
     void releaseCart() {
+        if(this.cart != null){
         this.cart.emptyCart();
         this.cart.removeCustomer(null);
         this.cart = null;
+        }
     }
 
     void addProductToCart(Product item) {
