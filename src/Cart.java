@@ -51,12 +51,14 @@ public class Cart {
                     productsList = reorderProducts(productsList);
                     notDeleted = false;
                     productsCounter--;
+                System.out.println(productsList[i].getProductName() + " removed from cart");
                 }
         }
     }
 
     void emptyCart() {
         Arrays.fill(productsList, null);
+        calculateTotal();
         productsCounter = 0;
     }
 
@@ -118,13 +120,21 @@ public class Cart {
     }
 
 
+    private String toStringArrayNonNulls (Product[] a) {
+        StringBuilder sb = new StringBuilder("" + a[0]);
+        for (int i = 1; i < a.length; i++) {
+            if (a[i]!=null)
+                sb.append(", ").append(a[i]);
+        }
+        return sb.toString();
+    }
+
+
     @Override
     public String toString() {
-        return "Cart{" +
-                "productsList=" + Arrays.toString(productsList) +
-                ", cartId=" + cartId +
-                ", productsCounter=" + productsCounter +
-                ", ownedByCustomer=" + (ownedByCustomer != null ? ownedByCustomer.getUserName() : ownedByCustomer) +
-                '}';
+        return "Cart{" +cartId+"}\n"+
+                 (ownedByCustomer != null ? "Belongs to: "+ ownedByCustomer.getUserName()+"\n" : "")+
+                "Shopping list:" + toStringArrayNonNulls(productsList) +
+                "\nTotal products: " + productsCounter+"\n==========";
     }
 }
