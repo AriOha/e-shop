@@ -72,11 +72,16 @@ public class Customer extends User {
 
 
     void releaseCart() {
-        if(this.cart != null){
-        this.cart.emptyCart();
-        this.cart.removeCustomer(null);
-        this.cart = null;
+        if (this.cart != null) {
+            this.cart.emptyCart();
+            this.cart.removeCustomer(null);
+            this.cart = null;
         }
+    }
+
+    void emptyCart() {
+        if (this.cart != null)
+            this.cart.emptyCart();
     }
 
     void addProductToCart(Product item) {
@@ -102,11 +107,14 @@ public class Customer extends User {
         else System.out.println("No items in Cart.");
     }
 
+
     void pay() {
-        totalPayed += cart.totalPrice - cart.calculateDiscounts();
-        totalItems += cart.getProductsCounter();
-        cart.emptyCart();
+        if (cart != null) {
+            totalPayed += cart.totalPrice - cart.calculateDiscounts();
+            totalItems += cart.productsList.size();
+            cart.emptyCart();
+        }
+
     }
 
 }
-
