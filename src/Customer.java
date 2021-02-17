@@ -95,16 +95,20 @@ public class Customer extends User {
     }
 
 
-    void displayBill() {
-        double totalPrice = cart.calculateTotal();
-        String checkout = cart.getBillList() +
-                "========================\n" +
-                "Total before discounts:\t" + totalPrice +
-                "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
-                "\nAfter discount:\t\t\t" + (cart.totalPrice - cart.calculateDiscounts());
-        if (totalPrice != 0)
-            System.out.println(checkout);
-        else System.out.println("No items in Cart.");
+    boolean displayBill() {
+        if (this.cart != null) {
+            double totalPrice = cart.calculateTotal();
+            String checkout = cart.getBillList() +
+                    "========================\n" +
+                    "Total before discounts:\t" + totalPrice +
+                    "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
+                    "\nAfter discount:\t\t\t" + (cart.totalPrice - cart.calculateDiscounts());
+            if (totalPrice != 0) {
+                System.out.println(checkout);
+                return true;
+            } else System.out.println("No items in Cart.");
+        } else System.out.println("No cart assigned to you.");
+        return false;
     }
 
 

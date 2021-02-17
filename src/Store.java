@@ -19,7 +19,10 @@ public class Store {
 
     void signUp(String userName, String password, String address, String phoneNumber, boolean isVip) {
         if (customersList.size() < maxCustomers)
-            customersList.add(new VIPCustomer(userName, password, address, phoneNumber));
+            if (isVip)
+                customersList.add(new VIPCustomer(userName, password, address, phoneNumber));
+            else
+                customersList.add(new Customer(userName, password, address, phoneNumber));
     }
 //
 //    Customer[] reorderCustomers(Customer[] unorderedList) {
@@ -62,7 +65,8 @@ public class Store {
         //ask Are u sure? if cart assigned to a user
         if (cartToRemove.getOwnedByCustomer() != null) {
             cartToRemove.ownedByCustomer.releaseCart();
-    }}
+        }
+    }
 
 
 }

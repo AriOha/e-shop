@@ -29,16 +29,16 @@ public class User {
     }
 
     //    TODO: Exceptions
-    public boolean login(User user) {
+    public boolean login(String password) {
         if (isLoggedIn) {
             System.out.println("User Already logged in");
             return false;
-        } else if (this.password.equals(user.password)) {
-                this.isLoggedIn = true;
-                System.out.println("Welcome " + userName + ".");
-                return true;
-            } else
-                System.out.println("Wrong password.");
+        } else if (this.password.equals(password)) {
+            this.isLoggedIn = true;
+            System.out.println("Welcome " + userName + ".");
+            return true;
+        } else
+            System.out.println("Wrong password.");
         return false;
     }
 

@@ -19,18 +19,22 @@ public class VIPCustomer extends Customer {
     }
 
     @Override
-    void displayBill() {
-        double totalPrice = cart.calculateTotal();
-        double finalPrice = cart.totalPrice - cart.calculateDiscounts();
-        String vipCheckout = cart.getBillList() +
-                "========================\n" +
-                "Total before discounts:\t" + totalPrice +
-                "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
-                "\nAfter discount:\t\t\t" + finalPrice +
-                "\nPrice after VIP saved(" + extraDiscount + "%):\t" + (finalPrice - calculateExtraDiscount(finalPrice));
-        if (totalPrice != 0)
-            System.out.println(vipCheckout);
-        else System.out.println("No items in Cart");
+    boolean displayBill() {
+        if (super.displayBill()) {
+            double totalPrice = cart.calculateTotal();
+            double finalPrice = cart.totalPrice - cart.calculateDiscounts();
+//        String vipCheckout = cart.getBillList() +
+//                "========================\n" +
+//                "Total before discounts:\t" + totalPrice +
+//                "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
+//                "\nAfter discount:\t\t\t" + finalPrice +
+            System.out.println("Price after VIP saved(" + extraDiscount + "%):\t" + (finalPrice - calculateExtraDiscount(finalPrice)));
+            return true;
+        }
+//        if (totalPrice != 0)
+//            System.out.println(vipCheckout);
+//        else System.out.println("No items in Cart");
+        return false;
     }
 
     void pay() {
