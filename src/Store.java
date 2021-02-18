@@ -17,23 +17,13 @@ public class Store {
         maxCarts = maxElements;
     }
 
-    void signUp(String userName, String password, String address, String phoneNumber, boolean isVip) {
+    void signUp(String userName, String password, String address, String phoneNumber, User.Membership membership) {
         if (customersList.size() < maxCustomers)
-            if (isVip)
-                customersList.add(new VIPCustomer(userName, password, address, phoneNumber));
+            if (membership != User.Membership.Regular)
+                customersList.add(new VIPCustomer(userName, password, address, phoneNumber, membership));
             else
                 customersList.add(new Customer(userName, password, address, phoneNumber));
     }
-//
-//    Customer[] reorderCustomers(Customer[] unorderedList) {
-//        Customer[] products = new Customer[unorderedList.length];
-//        int numOfCustomers = 0;
-//        for (int i = 0; i < products.length; i++) {
-//            if (unorderedList[i] != null)
-//                products[numOfCustomers++] = unorderedList[i];
-//        }
-//        return products;
-//    }
 
     void removeCustomer(String username) {
         for (Customer customer : customersList)
@@ -68,5 +58,40 @@ public class Store {
         }
     }
 
+    void displayOnlineCustomers() {
+        StringBuilder isOnline = new StringBuilder("Online Customers:\n");
+        for (Customer customer : customersList) {
+            if (customer.isLoggedIn) {
+                isOnline.append("Username: ").append(customer.getUserName()).append("\t |").append(customer.membership).append(" membership|\n");
+            }
+        }
+        System.out.println(isOnline);
+    }
+
+    void takenCarts() {
+        System.out.println("Taken carts: " + cartList.size() + " of " + maxCarts + " total.");
+    }
+
+    void displayProducts() {
+        System.out.println("Products in the store:");
+        for (Product product : productsList) {
+            System.out.println(product);
+        }
+    }
+
+    void earningsReport() {
+
+        double totalSales = 0;
+        int totalItems = 0;
+
+        for (Customer customer : customersList)
+            if (customer != null) {
+                totalSales += customer.totalPayed;
+                totalItems += customer.totalItems;
+            }
+
+        System.out.println("Total earnings: " + totalSales);
+        System.out.println("Total sold items: " + totalItems);
+    }
 
 }

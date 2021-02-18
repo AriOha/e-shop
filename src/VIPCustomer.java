@@ -3,20 +3,26 @@ public class VIPCustomer extends Customer {
     int extraDiscount;
 
 
-    VIPCustomer(String UserName, String password, String address, String phoneNumber) {
+    VIPCustomer(String UserName, String password, String address, String phoneNumber,Membership membership) {
         super(UserName, password, address, phoneNumber);
-        extraDiscount = 10;
+        extraDiscount = setExtraDiscount(membership);
+        this.membership= membership;
     }
 
-    void setExtraDiscount(int extraDiscount) {
-        if (extraDiscount >= 0 && extraDiscount <= 50)
-            this.extraDiscount = extraDiscount;
+    int setExtraDiscount(Membership discount) {
+        return switch (discount) {
+            case Bronze -> 10;
+            case Gold -> 20;
+            case Platinum -> 30;
+            default -> 0;
+        };
     }
 
     double calculateExtraDiscount(double price) {
         return price * extraDiscount / 100;
 
     }
+
 
     @Override
     boolean displayBill() {

@@ -1,15 +1,18 @@
 
-
 public class User {
 
     protected String userName;
     protected String password;
     protected boolean isLoggedIn = false;
-
+    enum Membership {
+        Regular,Bronze,Gold,Platinum
+    }
+    Membership membership;
 
     User(String userName, String password) {
         setUserName(userName);
         setPassword(password);
+        membership=Membership.Regular;
     }
 
     public void setUserName(String userName) {
