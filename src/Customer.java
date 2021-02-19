@@ -74,7 +74,7 @@ public class Customer extends User {
     void releaseCart() {
         if (this.cart != null) {
             this.cart.emptyCart();
-            this.cart.removeCustomer(null);
+            this.cart.releaseCustomerFromCart(null);
             this.cart = null;
         }
     }
@@ -83,6 +83,10 @@ public class Customer extends User {
         if (this.cart != null)
             this.cart.emptyCart();
     }
+
+//    void addProductToCart(String productId){
+//        Product product =
+//    }
 
     void addProductToCart(Product item) {
         this.cart.addItem(item);
@@ -119,6 +123,30 @@ public class Customer extends User {
             cart.emptyCart();
         }
 
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Username: ").append(userName).append('\t');
+        sb.append("address: ").append(address).append('\t');
+        sb.append("phoneNumber: ").append(phoneNumber).append('\t');
+        sb.append("Total payed: ").append(totalPayed).append('\t');
+        sb.append("Total bought: ").append(totalItems).append('\t');
+        sb.append("isLoggedIn: ").append(isLoggedIn).append('\t');
+        sb.append("membership: ").append(membership);
+        return sb.toString();
+    }
+
+    public String shortInfo() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("|").append(membership).append(" user|\t");
+        sb.append(userName).append(" : ");
+        sb.append("number: ").append(phoneNumber);
+        sb.append("Total payed: ").append(totalPayed).append(", ");
+        sb.append("Total bought: ").append(totalItems).append("|\t");
+        sb.append(isLoggedIn ? "Online" : "Offline").append("\t");
+        return sb.toString();
     }
 
 }

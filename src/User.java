@@ -4,15 +4,17 @@ public class User {
     protected String userName;
     protected String password;
     protected boolean isLoggedIn = false;
+
     enum Membership {
-        Regular,Bronze,Gold,Platinum
+        Basic, Bronze, Gold, Platinum
     }
+
     Membership membership;
 
     User(String userName, String password) {
         setUserName(userName);
         setPassword(password);
-        membership=Membership.Regular;
+        membership = Membership.Basic;
     }
 
     public void setUserName(String userName) {
@@ -38,7 +40,7 @@ public class User {
             return false;
         } else if (this.password.equals(password)) {
             this.isLoggedIn = true;
-            System.out.println("Welcome " + userName + ".");
+            System.out.println("Hello " + userName + "\t|" + membership + "|");
             return true;
         } else
             System.out.println("Wrong password.");
@@ -47,7 +49,7 @@ public class User {
 
     public void logout() {
         this.isLoggedIn = false;
-        System.out.println("Goodbye " + userName + ".");
+        System.out.println(userName + " logged out.");
     }
 
 }

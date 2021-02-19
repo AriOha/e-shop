@@ -5,7 +5,6 @@ public class Cart {
     static int startID = 1000;
     ArrayList<Product> productsList;
     private final int cartId, maxCapacity;
-    //    private int productsCounter;
     Customer ownedByCustomer;
     double totalPrice;
 
@@ -18,7 +17,6 @@ public class Cart {
         this.productsList = new ArrayList<>();
         ownedByCustomer = null;
         this.cartId = startID++;
-//        this.productsCounter = 0;
         this.totalPrice = 0;
         this.maxCapacity = maxCapacity;
     }
@@ -44,9 +42,9 @@ public class Cart {
         boolean notDeleted = true;
         for (int i = 0; i < productsList.size() && notDeleted; i++) {
             if (productsList.get(i).getCatalogId() == catalogId) {
+                System.out.println(productsList.get(i).getProductName() + " removed from cart");
                 productsList.remove(i);
                 notDeleted = false;
-                System.out.println(productsList.get(i).getProductName() + " removed from cart");
             }
         }
     }
@@ -66,7 +64,7 @@ public class Cart {
             ownedByCustomer = customer;
     }
 
-    void removeCustomer(Customer customer) {
+    void releaseCustomerFromCart(Customer customer) {
         if (ownedByCustomer != null)
             ownedByCustomer = null;
     }
@@ -78,9 +76,11 @@ public class Cart {
     StringBuilder getBillList() {
         StringBuilder itemsList = new StringBuilder();
         for (Product item : productsList)
-            if (item != null) {
-                itemsList.append(item.getProductName()).append("\t").append(item.getPrice()).append("\n");
-            }
+            itemsList.append(item.getProductName()).append("\t").append(item.getPrice()).append("\n");
+        if (itemsList.length() == 0) {
+            itemsList.append("=No Items in the cart=");
+        }
+
         return itemsList;
     }
 
@@ -116,9 +116,8 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" + cartId + "}\n" +
-                (ownedByCustomer != null ? "Belongs to: " + ownedByCustomer.getUserName() + "\n" : "") +
-                "Shopping list:" + productsList +
+        return "Cart no. " + cartId + "\t" + "Status: " + (ownedByCustomer != null ? "Belongs to " + ownedByCustomer.getUserName() + "\t" : "Available") +
+                "\nShopping list:\n" + getBillList() +
                 "\nTotal products: " + productsList.size() + "\n==========";
     }
 }
