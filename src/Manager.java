@@ -129,45 +129,53 @@ public class Manager extends User {
             System.out.println(
                     "=======\n1) Register new customer.\t" +
                             "5) Remove customer.\n" +
-                            "2) add carts to the shop.\t" +
-                            "6) delete cart from the shop.\n" +
+                            "2) Add carts to the shop.\t" +
+                            "6) Delete cart from the shop.\n" +
                             "3) Show online customers.\t" +
                             "7) Amount of carts in use.\n" +
                             "4) Display sales reports.\t" +
-                            "8) Exit.\n" + "=======");
+                            "8) Show registered customers.\n"+
+                            "9) Exit.\n" + "=======");
             selection = s.nextLine();
-            switch (selection) {
-                case "1":
-                    if (registerCustomer())
-                        System.out.println("User added successfully");
-                    break;
-                case "2":
-                    System.out.println("How much carts to add? (current " + managedStore.getCartsInUse() + "/" + managedStore.getMaxCarts() + "):");
-                    amount = Integer.parseInt(s.nextLine());
-                    addCartToStore(amount);
-                    break;
-                case "3":
-                    displayOnlineCustomers();
-                    break;
-                case "4":
-                    printTotalSales();
-                    break;
-                case "5":
-                    managedStore.displayCustomers();
-                    System.out.println("Insert Username:");
-                    removeCustomerByName(s.nextLine());
-                    break;
-                case "6":
-                    removeCartFromStore();
-                    break;
-                case "7":
-                    displayTakenCarts();
-                    break;
-                case "8":
-                    selection = "exit";
-                    break;
-                default:
-                    System.out.println("Selection not recognized, try again.");
+            try {
+
+                switch (selection) {
+                    case "1":
+                        if (registerCustomer())
+                            System.out.println("User added successfully");
+                        break;
+                    case "2":
+                        System.out.println("How much carts to add? (current " + managedStore.getCartsInUse() + "/" + managedStore.getMaxCarts() + "):");
+                        addCartToStore(Integer.parseInt(s.nextLine()));
+                        break;
+                    case "3":
+                        displayOnlineCustomers();
+                        break;
+                    case "4":
+                        printTotalSales();
+                        break;
+                    case "5":
+                        managedStore.displayCustomers();
+                        System.out.println("Insert Username:");
+                        removeCustomerByName(s.nextLine());
+                        break;
+                    case "6":
+                        removeCartFromStore();
+                        break;
+                    case "7":
+                        displayTakenCarts();
+                        break;
+                    case "8":
+                        managedStore.displayCustomers();
+                    case "9":
+                        logout();
+                        selection = "exit";
+                        break;
+                    default:
+                        System.out.println("Selection not recognized, try again.");
+                }
+            } catch (NumberFormatException numFor) {
+                System.out.println("Invalid value of number");
             }
         }
 
