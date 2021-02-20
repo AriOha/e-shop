@@ -32,7 +32,7 @@ public class Store {
     public int getCartsInUse() {
         return cartList.size();
     }
-    public int getProductsInStore() {
+    public int getProductsNumInStore() {
         return productsList.size();
     }
     public int registeredCustomers() {
@@ -67,13 +67,12 @@ public class Store {
         return null;
     }
 
-    Product searchForProduct(String productId)  throws NumberFormatException{
+    Product searchForProductInStore(String productId)  throws NumberFormatException{
         for (Product product : productsList)
             if (product.getCatalogId() == Integer.parseInt(productId)) {
                 return product;
             }
         return null;
-
     }
 
     Cart searchForCart(String cartId) throws NumberFormatException {

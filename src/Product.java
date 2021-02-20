@@ -60,7 +60,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "ID: " + catalogId +"\t"+productName+",\tPrice: " + price +",\tDiscounts: " + discount+"%";
+        return "ID: " + catalogId +"\t"+productName+",\tPrice: " + price +", <-> "+ discount+"% Discount";
     }
 
 }

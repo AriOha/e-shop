@@ -42,8 +42,8 @@ public class Manager extends User {
 
             validUsername = Validators.validUserName(username, managedStore);
             validPassword = Validators.validPassword(pass);
-            validAddr = Validators.validAddr(address);
-            validPhone = Validators.validPhone(phone);
+            validAddr = Validators.validAddress(address);
+            validPhone = Validators.phoneValidator(phone);
         } while (!(validUsername && validPassword && validAddr && validPhone));
 
         System.out.println("Details are valid, define as VIP? y/n");
@@ -60,9 +60,6 @@ public class Manager extends User {
         try {
             Customer customer = managedStore.searchForCustomer(givenUsername);
             managedStore.deleteCustomer(customer);
-//            customer.releaseCart();
-//            managedStore.customersList.remove(customer);
-//            System.out.println(givenUsername + " removed from the list");
         } catch (NullPointerException e) {
             System.out.println("Unable to remove " + givenUsername + ", user not found.");
         }
@@ -167,6 +164,7 @@ public class Manager extends User {
                         break;
                     case "8":
                         managedStore.displayCustomers();
+                        break;
                     case "9":
                         logout();
                         selection = "exit";
