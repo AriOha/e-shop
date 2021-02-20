@@ -17,6 +17,7 @@ public class Validators {
         return false;
     }
 
+
     static boolean validPassword(String password) {
         if (validRange(password.length(), 5, 15))
             return true;
@@ -24,14 +25,14 @@ public class Validators {
         return false;
     }
 
-    static boolean validAddr(String address) {
+    static boolean validAddress(String address) {
         if (validRange(address.length(), 5, 30))
             return true;
         System.out.println("Address not valid.");
         return false;
     }
 
-    static boolean validPhone(String phone) {
+    static boolean phoneValidator(String phone) {
 
         for (int i = 0; i < phone.length(); i++)
             if (phone.charAt(i) < '0' || phone.charAt(i) > '9') {

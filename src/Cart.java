@@ -30,23 +30,28 @@ public class Cart {
     }
 
 
-    void addItem(Product p) {
+    void addItem(Product p) throws NullPointerException {
         //TODO:
-        if (productsList.size() < maxCapacity) {
-            productsList.add(p);
-            System.out.println(p.getProductName() + " added to the cart");
-        } else System.out.println("No product added");
+        try {
+            if (productsList.size() < maxCapacity) {
+                productsList.add(p);
+                System.out.println(p.getProductName() + " added to the cart");
+            } else System.out.println("No product added");
+        } catch (NullPointerException nu) {
+            throw new NullPointerException();
+        }
     }
 
-    void removeItem(int catalogId) {
-        boolean notDeleted = true;
-        for (int i = 0; i < productsList.size() && notDeleted; i++) {
-            if (productsList.get(i).getCatalogId() == catalogId) {
-                System.out.println(productsList.get(i).getProductName() + " removed from cart");
-                productsList.remove(i);
-                notDeleted = false;
+    boolean removeItem(Product product) {
+        return productsList.remove(product);
+    }
+
+    Product searchForProduct(String productId)  throws NumberFormatException {
+        for (Product product : productsList)
+            if (product.getCatalogId() == Integer.parseInt(productId)) {
+                return product;
             }
-        }
+        return null;
     }
 
     void emptyCart() {
@@ -64,12 +69,12 @@ public class Cart {
             ownedByCustomer = customer;
     }
 
-    void releaseCustomerFromCart(Customer customer) {
+    void releaseCustomerFromCart() {
         if (ownedByCustomer != null)
             ownedByCustomer = null;
     }
 
-    void displayChart() {
+    void displayCart() {
         System.out.println(getBillList());
     }
 

@@ -6,15 +6,19 @@ public class User {
     protected boolean isLoggedIn = false;
 
     enum Membership {
-        Basic, Bronze, Gold, Platinum
+        Basic, Bronze, Gold, Platinum,Manager
     }
 
     Membership membership;
 
     User(String userName, String password) {
+        this(userName,password,Membership.Basic);
+    }
+
+    User(String userName, String password,Membership membership) {
         setUserName(userName);
         setPassword(password);
-        membership = Membership.Basic;
+        this.membership = membership;
     }
 
     public void setUserName(String userName) {
@@ -47,9 +51,19 @@ public class User {
         return false;
     }
 
+    public boolean login(String UserName, String password) {
+        if (UserName.equals(userName))
+            return this.login(password);
+        return false;
+    }
+
     public void logout() {
         this.isLoggedIn = false;
         System.out.println(userName + " logged out.");
+    }
+
+    void remoteLogout(String userName, String password) {
+
     }
 
 }

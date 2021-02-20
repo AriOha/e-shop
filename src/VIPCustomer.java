@@ -43,9 +43,12 @@ public class VIPCustomer extends Customer {
         return false;
     }
 
-    void pay() {
+    boolean pay() {
         if (cart != null)
             totalPayed -= calculateExtraDiscount(cart.totalPrice - cart.calculateDiscounts());
-        super.pay();
+        if (super.pay()){
+            return true;
+        }
+        return false;
     }
 }
