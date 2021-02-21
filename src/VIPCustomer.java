@@ -1,11 +1,23 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class VIPCustomer extends Customer {
 
     int extraDiscount;
 
-
     VIPCustomer(String UserName, String password, String address, String phoneNumber,Membership membership) {
-        super(UserName, password, address, phoneNumber);
-        extraDiscount = setExtraDiscount(membership);
+        this(UserName, password, address, phoneNumber,0,0,membership);
+    }
+
+    VIPCustomer(String UserName, String password, String address, String phoneNumber,double totalPayed,int totalItems,Membership membership) {
+        super(UserName, password, address, phoneNumber,totalPayed,totalItems);
+        this.extraDiscount = setExtraDiscount(membership);
+        this.membership= membership;
+    }
+
+    VIPCustomer(Scanner s,Membership membership) throws FileNotFoundException {
+        super(s);
         this.membership= membership;
     }
 
@@ -23,23 +35,19 @@ public class VIPCustomer extends Customer {
 
     }
 
+    @Override
+    public void save(PrintWriter pw) {
+        super.save(pw);
+    }
 
     @Override
     boolean displayBill() {
         if (super.displayBill()) {
-            double totalPrice = cart.calculateTotal();
+            cart.calculateTotal();
             double finalPrice = cart.totalPrice - cart.calculateDiscounts();
-//        String vipCheckout = cart.getBillList() +
-//                "========================\n" +
-//                "Total before discounts:\t" + totalPrice +
-//                "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
-//                "\nAfter discount:\t\t\t" + finalPrice +
             System.out.println("Price after VIP saved(" + extraDiscount + "%):\t" + (finalPrice - calculateExtraDiscount(finalPrice)));
             return true;
         }
-//        if (totalPrice != 0)
-//            System.out.println(vipCheckout);
-//        else System.out.println("No items in Cart");
         return false;
     }
 

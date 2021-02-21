@@ -1,4 +1,8 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Store {
 
@@ -32,21 +36,30 @@ public class Store {
     public int getCartsInUse() {
         return cartList.size();
     }
+
     public int getProductsNumInStore() {
         return productsList.size();
     }
+
     public int registeredCustomers() {
         return customersList.size();
+    }
+
+    boolean signUp(String userName, String password, String address, String phoneNumber) {
+        return signUp(userName, password, address, phoneNumber, User.Membership.Basic);
+
     }
 
     boolean signUp(String userName, String password, String address, String phoneNumber, User.Membership membership) {
         int currentCustomers = customersList.size();
         if (customersList.size() < maxCustomers)
-            if (membership != User.Membership.Basic)
-                customersList.add(new VIPCustomer(userName, password, address, phoneNumber, membership));
-            else
-                customersList.add(new Customer(userName, password, address, phoneNumber));
-
+            if (membership != User.Membership.Basic) {
+                if (customersList.add(new VIPCustomer(userName, password, address, phoneNumber, membership)))
+                    System.out.println("VIP customer registered successfully.");
+            } else {
+                if (customersList.add(new Customer(userName, password, address, phoneNumber)))
+                    System.out.println("Customer registered successfully.");
+            }
         return currentCustomers > customersList.size();
     }
 
@@ -67,7 +80,7 @@ public class Store {
         return null;
     }
 
-    Product searchForProductInStore(String productId)  throws NumberFormatException{
+    Product searchForProductInStore(String productId) throws NumberFormatException {
         for (Product product : productsList)
             if (product.getCatalogId() == Integer.parseInt(productId)) {
                 return product;
@@ -84,11 +97,11 @@ public class Store {
     }
 
 
-    void removeCart(String cartId) throws NullPointerException,NumberFormatException {
+    void removeCart(String cartId) throws NullPointerException, NumberFormatException {
         Cart cart = searchForCart(cartId);
         releaseCustomer(cart);
         if (cartList.remove(cart))
-            System.out.println("Cart "+cartId+" removed from the store");
+            System.out.println("Cart " + cartId + " removed from the store");
 
     }
 
@@ -159,4 +172,74 @@ public class Store {
         System.out.println("Total sold items: " + totalItems);
     }
 
+    boolean registerCustomer(User.Membership membership) {
+        Scanner s = new Scanner(System.in);
+        String username = "";
+        String pass = "";
+        String address = "";
+        String phone = "";
+        boolean validUsername, validPassword, validAddr, validPhone;
+        validUsername = validPassword = validAddr = validPhone = false;
+
+        do {
+            if (!validUsername) {
+                System.out.println("Enter username: ");
+                username = s.nextLine();
+            }
+            if (!validPassword) {
+                System.out.println("Enter password: ");
+                pass = s.nextLine();
+            }
+            if (!validAddr) {
+                System.out.println("Enter address: ");
+                address = s.nextLine();
+            }
+            if (!validPhone) {
+                System.out.println("Enter phone number: ");
+                phone = s.nextLine();
+            }
+
+            validUsername = Validators.validUserName(username, this);
+            validPassword = Validators.validPassword(pass);
+            validAddr = Validators.validAddress(address);
+            validPhone = Validators.phoneValidator(phone);
+        } while (!(validUsername && validPassword && validAddr && validPhone));
+
+        if (membership == User.Membership.Manager) {
+            System.out.println("Details are valid, define as VIP? y/n");
+            if (s.nextLine().startsWith("y"))
+                return signUp(username, pass, address, phone, User.Membership.Bronze);
+        }
+        return signUp(username, pass, address, phone, User.Membership.Basic);
+
+    }
+
+
+    void saveCustomers() throws FileNotFoundException {
+
+        File f = new File("C:\\Users\\Ariel\\Desktop\\data\\Customers.txt");
+        PrintWriter pw = new PrintWriter(f);
+        pw.println(customersList.size());
+        for (Customer customer : customersList) {
+            customer.save(pw);
+        }
+        pw.close();
+    }
+
+    void loadCustomers() throws FileNotFoundException {
+        User.Membership membership;
+        File f = new File("C:\\Users\\Ariel\\Desktop\\data\\Customers.txt");
+        Scanner lc = new Scanner(f);
+        int numOfCustomers = lc.nextInt();
+        for (int i = 0; i < numOfCustomers; i++) {
+            membership = User.Membership.valueOf(lc.next());
+            if (membership != User.Membership.Basic) {
+                if (customersList.add(new VIPCustomer(lc,membership)))
+                    System.out.println("VIP(f) customer registered successfully.");
+            } else {
+                if (customersList.add(new Customer(lc)))
+                    System.out.println("Customer(f) registered successfully.");
+            }
+        }
+    }
 }

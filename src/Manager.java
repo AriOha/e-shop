@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Manager extends User {
@@ -5,56 +6,57 @@ public class Manager extends User {
     Store managedStore;
 
     Manager(String userName, String password) {
-        super(userName, password);
+        this(userName, password, null);
     }
 
     Manager(String userName, String password, Store managedStore) {
-        this(userName, password);
+        super(userName, password, Membership.Manager);
         this.managedStore = managedStore;
     }
 
-    boolean registerCustomer() {
-        Scanner s = new Scanner(System.in);
-        String username = "";
-        String pass = "";
-        String address = "";
-        String phone = "";
-        boolean validUsername, validPassword, validAddr, validPhone;
-        validUsername = validPassword = validAddr = validPhone = false;
-
-        do {
-            if (!validUsername) {
-                System.out.println("Enter username: ");
-                username = s.nextLine();
-            }
-            if (!validPassword) {
-                System.out.println("Enter password: ");
-                pass = s.nextLine();
-            }
-            if (!validAddr) {
-                System.out.println("Enter address: ");
-                address = s.nextLine();
-            }
-            if (!validPhone) {
-                System.out.println("Enter phone number: ");
-                phone = s.nextLine();
-            }
-
-            validUsername = Validators.validUserName(username, managedStore);
-            validPassword = Validators.validPassword(pass);
-            validAddr = Validators.validAddress(address);
-            validPhone = Validators.phoneValidator(phone);
-        } while (!(validUsername && validPassword && validAddr && validPhone));
-
-        System.out.println("Details are valid, define as VIP? y/n");
-        if (s.nextLine().startsWith("y")) {
-            System.out.println("Creating VIP customer.");
-            return managedStore.signUp(username, pass, address, phone, Membership.Bronze);
-        } else {
-            System.out.println("Creating regular customer.");
-            return managedStore.signUp(username, pass, address, phone, Membership.Basic);
-        }
-    }
+//    boolean registerCustomer() {
+//        Scanner s = new Scanner(System.in);
+//        String username = "";
+//        String pass = "";
+//        String address = "";
+//        String phone = "";
+//        boolean validUsername, validPassword, validAddr, validPhone;
+//        validUsername = validPassword = validAddr = validPhone = false;
+//
+//        do {
+//            if (!validUsername) {
+//                System.out.println("Enter username: ");
+//                username = s.nextLine();
+//            }
+//            if (!validPassword) {
+//                System.out.println("Enter password: ");
+//                pass = s.nextLine();
+//            }
+//            if (!validAddr) {
+//                System.out.println("Enter address: ");
+//                address = s.nextLine();
+//            }
+//            if (!validPhone) {
+//                System.out.println("Enter phone number: ");
+//                phone = s.nextLine();
+//            }
+//
+//            validUsername = Validators.validUserName(username, managedStore);
+//            validPassword = Validators.validPassword(pass);
+//            validAddr = Validators.validAddress(address);
+//            validPhone = Validators.phoneValidator(phone);
+//        } while (!(validUsername && validPassword && validAddr && validPhone));
+//
+//
+//        System.out.println("Details are valid, define as VIP? y/n");
+//        if (s.nextLine().startsWith("y")) {
+//            System.out.println("Creating VIP customer.");
+//            return managedStore.signUp(username, pass, address, phone, Membership.Bronze);
+//        } else {
+//            System.out.println("Creating regular customer.");
+//            return managedStore.signUp(username, pass, address, phone, Membership.Basic);
+//        }
+//    }
 
     void removeCustomerByName(String givenUsername) {
         try {
@@ -131,14 +133,14 @@ public class Manager extends User {
                             "3) Show online customers.\t" +
                             "7) Amount of carts in use.\n" +
                             "4) Display sales reports.\t" +
-                            "8) Show registered customers.\n"+
+                            "8) Show registered customers.\n" +
                             "9) Exit.\n" + "=======");
             selection = s.nextLine();
             try {
 
                 switch (selection) {
                     case "1":
-                        if (registerCustomer())
+                        if (managedStore.registerCustomer(membership))
                             System.out.println("User added successfully");
                         break;
                     case "2":
@@ -169,11 +171,22 @@ public class Manager extends User {
                         logout();
                         selection = "exit";
                         break;
+                    case "10":
+                        System.out.println("Saving data..");
+                        managedStore.saveCustomers();
+                        break;
+                    case "11":
+                        System.out.println("Loading customers..");
+                        managedStore.loadCustomers();
+                        break;
                     default:
                         System.out.println("Selection not recognized, try again.");
                 }
             } catch (NumberFormatException numFor) {
                 System.out.println("Invalid value of number");
+            } catch (FileNotFoundException fn) {
+                System.out.println("File not found");
+
             }
         }
 

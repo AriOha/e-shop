@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Customer extends User {
@@ -8,11 +10,19 @@ public class Customer extends User {
     Cart cart;
 
     Customer(String UserName, String password, String address, String phoneNumber) {
+        this(UserName, password, address, phoneNumber, 0, 0);
+    }
+
+    Customer(String UserName, String password, String address, String phoneNumber, double totalPayed, int totalItems) {
         super(UserName, password);
         setAddress(address);
         setPhoneNumber(phoneNumber);
-        this.totalPayed = 0;
-        this.totalItems = 0;
+        this.totalPayed = totalPayed;
+        this.totalItems = totalItems;
+    }
+
+    Customer(Scanner s) throws FileNotFoundException {
+        this(s.next(), s.next(), s.next(), s.next(), s.nextDouble(), s.nextInt());
     }
 
 
@@ -226,7 +236,6 @@ public class Customer extends User {
         String oldPassword, newPassword, newPassRepeat;
         System.out.println("Enter your old password:");
         oldPassword = sp.nextLine();
-        newPassword = "";
         newPassRepeat = "";
         if (passwordAuthentication(oldPassword)) {
             System.out.println("Set new password:");
@@ -248,8 +257,12 @@ public class Customer extends User {
         return false;
     }
 
-    boolean passwordAuthentication(String password) {
-        return (password.equals(getPassword()));
+    public void save(PrintWriter pw) {
+        super.save(pw);
+        pw.println(address);
+        pw.println(phoneNumber);
+        pw.println(totalPayed);
+        pw.println(totalItems);
     }
 
     void menu(Store store) {
@@ -267,8 +280,9 @@ public class Customer extends User {
                             "3) Add product to cart. \t\t" +
                             "8) Checkout. \n" +
                             "4) Remove product from cart. \t" +
-                            "9) exit.\n" +
-                            "5) Change password.\n" + "=======");
+                            "9) logout.\n" +
+                            "5) Change password.\t\t\t\t" +
+                            "10) exit(w/o logout).\n" + "=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
@@ -311,6 +325,7 @@ public class Customer extends User {
                         break;
                     case "9":
                         logout();
+                    case "10":
                         selection = "exit";
                         break;
                     default:
