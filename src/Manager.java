@@ -36,16 +36,17 @@ public class Manager extends User {
     }
 
     void changePrice() {
-        Scanner s = new Scanner(System.in);
-        managedStore.displayProducts();
-        System.out.println("Insert product ID to change it's price");
-        Product product = managedStore.searchForProductInStore(s.nextLine());
-        if (product != null) {
-            if (changePrice(product)) {
-                System.out.println("Price changed successfully");
-            } else System.out.println("Price is invalid");
-        } else
-            System.out.println("Product not found.");
+        if (managedStore.displayProducts()) {
+            Scanner s = new Scanner(System.in);
+            System.out.println("Insert product ID to change it's price");
+            Product product = managedStore.searchForProductInStore(s.nextLine());
+            if (product != null) {
+                if (changePrice(product)) {
+                    System.out.println("Price changed successfully");
+                } else System.out.println("Price is invalid");
+            } else
+                System.out.println("Product not found.");
+        }
     }
 
     boolean changePrice(Product p) {
@@ -55,16 +56,17 @@ public class Manager extends User {
     }
 
     void changeDiscount() {
-        Scanner s = new Scanner(System.in);
-        managedStore.displayProducts();
-        System.out.println("Insert product ID to change it's discount");
-        Product product = managedStore.searchForProductInStore(s.nextLine());
-        if (product != null) {
-            if (changePrice(product)) {
-                System.out.println("Discount changed successfully");
-            } else System.out.println("Discount is invalid");
-        } else
-            System.out.println("Product not found.");
+        if (managedStore.displayProducts()) {
+            Scanner s = new Scanner(System.in);
+            System.out.println("Insert product ID to change it's discount");
+            Product product = managedStore.searchForProductInStore(s.nextLine());
+            if (product != null) {
+                if (changePrice(product)) {
+                    System.out.println("Discount changed successfully");
+                } else System.out.println("Discount is invalid");
+            } else
+                System.out.println("Product not found.");
+        }
     }
 
     boolean changeDiscount(Product p) {
@@ -83,6 +85,9 @@ public class Manager extends User {
     }
 
     void displayCarts() {
+        if (managedStore.cartList.size() == 0) {
+            System.out.println("No carts in the store.");
+        }
         for (Cart cart : managedStore.cartList) {
             System.out.println("Cart no. " + cart.getCartId() + "\t" + "Status: " + (cart.getOwnedByCustomer() != null ? "Belongs to " + cart.ownedByCustomer.getUserName() + "\t" : "Available"));
         }
@@ -117,15 +122,16 @@ public class Manager extends User {
     }
 
     void removeProductFromStore() {
-        managedStore.displayProducts();
-        System.out.println("Select product to delete by ID:");
-        Scanner s = new Scanner(System.in);
-        try {
-            removeProductFromStore(s.nextLine());
-        } catch (NumberFormatException n) {
-            System.out.println("ID format not valid");
-        } catch (NullPointerException nu) {
-            System.out.println("Product not found by provided ID");
+        if (managedStore.displayProducts()) {
+            System.out.println("Select product to delete by ID:");
+            Scanner s = new Scanner(System.in);
+            try {
+                removeProductFromStore(s.nextLine());
+            } catch (NumberFormatException n) {
+                System.out.println("ID format not valid");
+            } catch (NullPointerException nu) {
+                System.out.println("Product not found by provided ID");
+            }
         }
     }
 
@@ -149,85 +155,6 @@ public class Manager extends User {
         managedStore.earningsReport();
     }
 
-//    void menu() {
-//        Scanner s = new Scanner(System.in);
-//        String selection = "";
-//        System.out.println("Welcome " + userName);
-//        System.out.println("Select one of the options above:");
-//        while (!selection.equals("exit")) {
-//            System.out.println(
-//                    "=======\n1) Register new customer.\t" +
-//                            "5) Remove customer.\n" +
-//                            "2) Add carts to the shop.\t" +
-//                            "6) Delete cart from the shop.\n" +
-//                            "3) Show online customers.\t" +
-//                            "7) Amount of carts in use.\n" +
-//                            "4) Display sales reports.\t" +
-//                            "8) Show registered customers.\n" +
-//                            "9) Exit.\n" + "=======");
-//            selection = s.nextLine();
-//            try {
-//
-//                switch (selection) {
-//                    case "1":
-//                        if (managedStore.registerCustomer(membership))
-//                            System.out.println("User added successfully");
-//                        break;
-//                    case "2":
-//                        System.out.println("How much carts to add? (current " + managedStore.getCartsInUse() + "/" + managedStore.getMaxCarts() + "):");
-//                        addCartToStore(Integer.parseInt(s.nextLine()));
-//                        break;
-//                    case "3":
-//                        displayOnlineCustomers();
-//                        break;
-//                    case "4":
-//                        printTotalSales();
-//                        break;
-//                    case "5":
-//                        managedStore.displayCustomers();
-//                        System.out.println("Insert Username:");
-//                        removeCustomerByName(s.nextLine());
-//                        break;
-//                    case "6":
-//                        removeCartFromStore();
-//                        break;
-//                    case "7":
-//                        displayTakenCarts();
-//                        break;
-//                    case "8":
-//                        managedStore.displayCustomers();
-//                        break;
-//                    case "9":
-//                        logout();
-//                        selection = "exit";
-//                        break;
-//                    case "10":
-//                        managedStore.saveCustomers();
-//                        break;
-//                    case "11":
-//                        System.out.println("Loading customers..");
-//                        managedStore.loadCustomers();
-//                        break;
-//                    case "12":
-//                        managedStore.saveProducts();
-//                        break;
-//                    case "13":
-//                        System.out.println("Loading products..");
-//                        managedStore.loadProducts();
-//                        break;
-//                    default:
-//                        System.out.println("Selection not recognized, try again.");
-//                }
-//            } catch (NumberFormatException numFor) {
-//                System.out.println("Invalid value of number");
-//            } catch (FileNotFoundException fn) {
-//                System.out.println("File not found");
-//
-//            }
-//        }
-//
-//    }
-
     void menu() {
         Scanner s = new Scanner(System.in);
         String selection = "";
@@ -247,8 +174,8 @@ public class Manager extends User {
                     case "4" -> {
                         System.out.println("Save to files before exit? y/n");
                         if (s.nextLine().startsWith("y")) {
-                            managedStore.saveCustomers();
-                            managedStore.saveProducts();
+                            managedStore.saveCustomers("data/Products.txt");
+                            managedStore.saveProducts("data/Products.txt");
                         }
                         logout();
                         selection = "exit";
@@ -271,32 +198,25 @@ public class Manager extends User {
         while (!selection.equals("exit")) {
             System.out.println(
                     "=======\n" +
-                            "1) Add carts to the shop.\n" +
-                            "2) Delete cart from the shop.\n" +
-                            "3) Amount of carts in use.\n" +
-                            "4) Display sales reports.\n" +
-                            "5) Exit.\n" + "=======");
+                            "1) Display carts status.\n" +
+                            "2) Add carts to the shop.\n" +
+                            "3) Delete cart from the shop.\n" +
+                            "4) Amount of carts in use.\n" +
+                            "5) Display sales reports.\n" +
+                            "6) Exit.\n" + "=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
-                    case "1":
+                    case "1"-> displayCarts();
+                    case "2" -> {
                         System.out.println("How much carts to add? (current " + managedStore.getCartsInUse() + "/" + managedStore.getMaxCarts() + "):");
                         addCartToStore(Integer.parseInt(s.nextLine()));
-                        break;
-                    case "2":
-                        removeCartFromStore();
-                        break;
-                    case "3":
-                        displayTakenCarts();
-                        break;
-                    case "4":
-                        printTotalSales();
-                        break;
-                    case "5":
-                        selection = "exit";
-                        break;
-                    default:
-                        System.out.println("Selection not recognized, try again.");
+                    }
+                    case "3" -> removeCartFromStore();
+                    case "4" -> displayTakenCarts();
+                    case "5" -> printTotalSales();
+                    case "6" -> selection = "exit";
+                    default -> System.out.println("Selection not recognized, try again.");
                 }
             } catch (NumberFormatException numFor) {
                 System.out.println("Invalid value of number");
@@ -328,15 +248,16 @@ public class Manager extends User {
                             System.out.println("User added successfully");
                         break;
                     case "3":
-                        managedStore.displayCustomers();
-                        System.out.println("Insert Username:");
-                        removeCustomerByName(s.nextLine());
+                        if (managedStore.displayCustomers()) {
+                            System.out.println("Insert Username:");
+                            removeCustomerByName(s.nextLine());
+                        }
                         break;
                     case "4":
                         displayOnlineCustomers();
                         break;
                     case "5":
-                        managedStore.saveCustomers();
+                        managedStore.saveCustomers("data/Products.txt");
                         break;
                     case "6":
                         selection = "exit";
@@ -368,12 +289,14 @@ public class Manager extends User {
             selection = s.nextLine();
             try {
                 switch (selection) {
-                    case "1" -> managedStore.displayProducts();
+                    case "1" -> {
+                        managedStore.displayProducts();
+                    }
                     case "2" -> addProductToStore();
                     case "3" -> changePrice();
                     case "4" -> changeDiscount();
                     case "5" -> removeProductFromStore();
-                    case "6" -> managedStore.saveProducts();
+                    case "6" -> managedStore.saveProducts("data/Products.txt");
                     case "7" -> selection = "exit";
                     default -> System.out.println("Selection not recognized, try again.");
                 }

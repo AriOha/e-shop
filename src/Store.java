@@ -139,7 +139,8 @@ public class Store {
 
 
     void displayOnlineCustomers() {
-        StringBuilder isOnline = new StringBuilder("Online Customers:\n");
+        StringBuilder isOnline = new StringBuilder();
+        isOnline.append(customersList.size() == 0 ? "All customers are offline." : "Online Customers:\n");
         for (Customer customer : customersList) {
             if (customer.isLoggedIn) {
                 isOnline.append("Username: ").append(customer.getUserName()).append("\t |").append(customer.membership).append(" membership|\n");
@@ -155,25 +156,40 @@ public class Store {
         System.out.println("Taken carts: " + taken + " of " + cartList.size() + " available.(max=" + maxCarts + ")");
     }
 
-    void displayCarts() {
-        System.out.println("Carts in the store:");
-        for (Cart cart : cartList) {
-            System.out.println(cart);
-        }
-    }
+//    boolean displayCarts() {
+//        if (cartList.size() == 0) {
+//            System.out.println("No carts in the store.");
+//            return false;
+//        }
+//        System.out.println("Carts in the store:");
+//        for (Cart cart : cartList) {
+//            System.out.println(cart);
+//        }
+//        return true;
+//    }
 
-    void displayProducts() {
+    boolean displayProducts() {
+        if (cartList.size() == 0) {
+            System.out.println("No products in the store.");
+            return false;
+        }
         System.out.println("Products in the store:");
         for (Product product : productsList) {
             System.out.println(product);
         }
+        return true;
     }
 
-    void displayCustomers() {
+    boolean displayCustomers() {
+        if (cartList.size() == 0) {
+            System.out.println("No customers in the store.");
+            return false;
+        }
         System.out.println("Registered customers:");
         for (Customer customer : customersList) {
             System.out.println(customer.shortInfo());
         }
+        return true;
     }
 
     void earningsReport() {
@@ -236,9 +252,9 @@ public class Store {
     }
 
 
-    void saveCustomers() throws FileNotFoundException {
+    void saveCustomers(String filepath) throws FileNotFoundException {
         if (registeredCustomers() > 0) {
-            File f = new File("SuperMarket/src/data/Customers.txt");
+            File f = new File(filepath);
             PrintWriter pw = new PrintWriter(f);
             pw.println(customersList.size());
             for (Customer customer : customersList) {
@@ -248,9 +264,9 @@ public class Store {
         } else System.out.println("No Customers to save.");
     }
 
-    void loadCustomers() throws FileNotFoundException, NoSuchElementException {
+    void loadCustomers(String filepath) throws FileNotFoundException, NoSuchElementException {
         User.Membership membership;
-        File f = new File("data/Customers.txt");
+        File f = new File(filepath);
         Scanner lc = new Scanner(f);
         int numOfCustomers = lc.nextInt();
         for (int i = 0; i < numOfCustomers; i++) {
@@ -264,32 +280,31 @@ public class Store {
         System.out.println("Loaded " + customersList.size() + " Customers");
     }
 
-    void saveProducts() throws FileNotFoundException {
-            if (getProductsNumInStore() > 0) {
-                File f = new File("data/Products.txt");
-                PrintWriter pw = new PrintWriter(f);
-                pw.println(getProductsNumInStore());
-                for (Product product : productsList) {
-                    product.save(pw);
-                }
-                pw.close();
-            } else System.out.println("No products to save.");
-
+    void saveProducts(String filepath) throws FileNotFoundException {
+        if (getProductsNumInStore() > 0) {
+            File f = new File(filepath);
+            PrintWriter pw = new PrintWriter(f);
+            pw.println(getProductsNumInStore());
+            for (Product product : productsList) {
+                product.save(pw);
+            }
+            pw.close();
+        } else System.out.println("No products to save.");
     }
 
-    void loadProducts() throws FileNotFoundException, NoSuchElementException {
-//        try {
-            File f = new File("C:\\Users\\Ariel\\Desktop\\Products.txt");
+    void loadProducts(String filepath) throws FileNotFoundException, NoSuchElementException {
+        try {
+            File f = new File(filepath);
             Scanner lp = new Scanner(f);
             int numOfProducts = lp.nextInt();
+            lp.nextLine();
             for (int i = 0; i < numOfProducts; i++) {
                 productsList.add(new Product(lp));
-                System.out.println(productsList.get(i));
             }
             System.out.println("Loaded " + getProductsNumInStore() + " products");
-//        } catch (NoSuchElementException ns) {
-//            System.out.println("No products to load");
-//        }
+        } catch (NoSuchElementException ns) {
+            System.out.println("No products to load");
+        }
     }
 
 

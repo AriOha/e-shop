@@ -17,7 +17,7 @@ public class Product {
     }
 
     Product(Scanner s) {
-        this(s.next(), s.nextDouble(), s.nextInt());
+        this(s.nextLine(), Double.parseDouble(s.nextLine()), Integer.parseInt(s.nextLine()));
     }
 
     public void save(PrintWriter pw) {
@@ -48,7 +48,7 @@ public class Product {
 
     //    TODO:Exceptions
     boolean setDiscount(int discount) {
-        if (Validators.validRange(discount,0,50)){
+        if (Validators.validRange(discount, 0, 50)) {
             this.discount = discount;
             return true;
         }
