@@ -1,0 +1,25 @@
+8
+Greygoose
+120.0
+10
+Jack Daniels
+100.0
+15
+Van Goh
+90.0
+5
+Roberto Cavelli
+300.0
+25
+Red Label
+80.0
+3
+Black Label
+100.0
+12
+Blue Label
+600.0
+25
+Green Fairy
+400.0
+18

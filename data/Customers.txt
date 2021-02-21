@@ -1,0 +1,39 @@
+5
+Basic
+user1
+pass
+Haifa street
+0544462354
+41.0
+4
+Gold
+goldy
+pass
+Gold street
+0588888888
+376.8
+5
+982
+Platinum
+ari
+pass
+Street
+0564463256
+8559.7
+64
+432
+Basic
+ari2
+pass
+Street
+0458754215
+1567.5
+23
+Bronze
+bronzy
+pass
+Bronze street
+0466355214
+963.0
+25
+486
