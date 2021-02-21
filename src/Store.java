@@ -169,7 +169,7 @@ public class Store {
 //    }
 
     boolean displayProducts() {
-        if (cartList.size() == 0) {
+        if (productsList.size() == 0) {
             System.out.println("No products in the store.");
             return false;
         }
@@ -181,7 +181,7 @@ public class Store {
     }
 
     boolean displayCustomers() {
-        if (cartList.size() == 0) {
+        if (customersList.size() == 0) {
             System.out.println("No customers in the store.");
             return false;
         }
@@ -261,6 +261,7 @@ public class Store {
                 customer.save(pw);
             }
             pw.close();
+            System.out.println("Customers saved successfully");
         } else System.out.println("No Customers to save.");
     }
 
@@ -271,6 +272,7 @@ public class Store {
         int numOfCustomers = lc.nextInt();
         for (int i = 0; i < numOfCustomers; i++) {
             membership = User.Membership.valueOf(lc.next());
+            lc.nextLine();
             if (membership != User.Membership.Basic) {
                 customersList.add(new VIPCustomer(lc, membership));
             } else {
@@ -289,6 +291,7 @@ public class Store {
                 product.save(pw);
             }
             pw.close();
+            System.out.println("Products saved successfully");
         } else System.out.println("No products to save.");
     }
 

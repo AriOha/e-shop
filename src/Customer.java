@@ -22,7 +22,7 @@ public class Customer extends User {
     }
 
     Customer(Scanner s) throws FileNotFoundException {
-        this(s.next(), s.next(), s.next(), s.next(), s.nextDouble(), s.nextInt());
+        this(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), Double.parseDouble(s.nextLine()),Integer.parseInt(s.nextLine()));
     }
 
 
@@ -57,19 +57,10 @@ public class Customer extends User {
                 this.phoneNumber = phoneNumber;
     }
 
-
-    void changeAddress(String newAddress) {
-        if (Validators.validAddress(newAddress))
-            if (!this.address.equals(newAddress)) {
-                setAddress(newAddress);
-            }
-    }
-
-
-    void changePhone(String newPhoneNumber) {
-        if (!this.phoneNumber.equals(newPhoneNumber)) {
-            setPhoneNumber(newPhoneNumber);
-        }
+    void showDetails() {
+        System.out.println("You are a |" + membership+"| user");
+        System.out.println("Your address is: " + address);
+        System.out.println("Your phone is: " + phoneNumber);
     }
 
 
@@ -104,10 +95,6 @@ public class Customer extends User {
         return false;
     }
 
-    void emptyCart() {
-        if (this.cart != null)
-            this.cart.emptyCart();
-    }
 
     void addProductToCart(Store storeToSearch, String productId) {
         Product product = storeToSearch.searchForProductInStore(productId);
@@ -166,7 +153,7 @@ public class Customer extends User {
                     "========================\n" +
                     "Total before discounts:\t" + totalPrice +
                     "\nSaved money:\t\t\t" + cart.calculateDiscounts() +
-                    "\nAfter discount:\t\t\t" + (cart.totalPrice - cart.calculateDiscounts());
+                    "\nAfter discount:\t\t\t" + (totalPrice - cart.calculateDiscounts());
             if (totalPrice != 0) {
                 System.out.println(checkout);
                 return true;
@@ -289,7 +276,10 @@ public class Customer extends User {
                 switch (selection) {
                     case "1" -> shoppingMenu(store);
                     case "2" -> detailsMenu();
-                    case "3" -> logout();
+                    case "3" -> {
+                        logout();
+                        selection = "exit";
+                    }
                     case "4" -> selection = "exit";
                     default -> System.out.println("Selection not recognized, try again.");
                 }
@@ -367,10 +357,12 @@ public class Customer extends User {
 
     }
 
+
     void detailsMenu() {
         Scanner s = new Scanner(System.in);
         String selection = "";
         while (!selection.equals("exit")) {
+            showDetails();
             System.out.println(
                     "=======\n" +
                             "1) Change address. \n" +

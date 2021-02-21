@@ -256,7 +256,7 @@ public class Manager extends User {
                         displayOnlineCustomers();
                         break;
                     case "5":
-                        managedStore.saveCustomers("data/Products.txt");
+                        managedStore.saveCustomers("data/Customers.txt");
                         break;
                     case "6":
                         selection = "exit";
