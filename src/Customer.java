@@ -160,6 +160,7 @@ public class Customer extends User {
 
     boolean displayBill() {
         if (this.cart != null) {
+            System.out.println("Your bill:");
             double totalPrice = cart.calculateTotal();
             String checkout = cart.getBillList() +
                     "========================\n" +
@@ -269,84 +270,6 @@ public class Customer extends User {
         pw.println(totalItems);
     }
 
-//    void menu(Store store) {
-//        Scanner s = new Scanner(System.in);
-//        String selection = "";
-//        System.out.println("Welcome " + userName);
-//        System.out.println("Select one of the options above:");
-//
-//        while (!selection.equals("exit")) {
-//            System.out.println(
-//                    "=======\n1) Take Cart. \t\t\t\t\t" +
-//                            "6) Change address. \n" +
-//                            "2) Release Cart. \t\t\t\t" +
-//                            "7) Change phone number. \n" +
-//                            "3) Add product to cart. \t\t" +
-//                            "8) Checkout. \n" +
-//                            "4) Remove product from cart. \t" +
-//                            "9) logout.\n" +
-//                            "5) Change password.\t\t\t\t" +
-//                            "10) exit(w/o logout).\n" + "=======");
-//            selection = s.nextLine();
-//            try {
-//                switch (selection) {
-//                    case "1":
-//                        if (findAvailableCart(store))
-//                            System.out.println("Cart added successfully");
-//                        break;
-//                    case "2":
-//                        if (releaseCart())
-//                            System.out.println("Cart released.");
-//                        else
-//                            System.out.println("You dont have a cart.");
-//                        break;
-//                    case "3":
-//                        if (store.displayProducts()) {
-//                            System.out.println("Insert product ID to add the item to the cart");
-//                            addProductToCart(store, s.nextLine());
-//                        }
-//                        break;
-//                    case "4":
-//                        if (!removeProductFromCart())
-//                            System.out.println("You dont have products in cart.");
-//                        break;
-//                    case "5":
-//                        System.out.println("Password " + (changePassword() ? "changed successfully." : "was not changed."));
-//                        break;
-//                    case "6":
-//                        System.out.println("Address " + (changeAddress() ? "changed successfully." : "was not changed."));
-//                        break;
-//                    case "7":
-//                        System.out.println("Phone " + (changePhoneNumber() ? "changed successfully to - " + getPhoneNumber() : "was not changed."));
-//                        break;
-//                    case "8":
-//                        System.out.println("Your bill:");
-//                        if (displayBill()) {
-//                            System.out.println("Do you want to pay? y/n");
-//                            if (s.nextLine().startsWith("y")) {
-//                                if (pay())
-//                                    System.out.println("Payment successful.");
-//                            }
-//                        }
-//                        break;
-//                    case "9":
-//                        logout();
-//                    case "10":
-//                        selection = "exit";
-//                        break;
-//                    default:
-//                        System.out.println("Selection not recognized, try again.");
-//                }
-//            } catch (NumberFormatException numFor) {
-//                System.out.println("Invalid value of number");
-//            } catch (NullPointerException nu) {
-//                System.out.println("You dont own a cart.");
-//
-//            }
-//        }
-//
-//    }
-
     void menu(Store store) {
         Scanner s = new Scanner(System.in);
         String selection = "";
@@ -355,65 +278,20 @@ public class Customer extends User {
 
         while (!selection.equals("exit")) {
             System.out.println(
-                    "=======\n1) Take Cart. \t\t\t\t\t" +
-                            "6) Change address. \n" +
-                            "2) Release Cart. \t\t\t\t" +
-                            "7) Change phone number. \n" +
-                            "3) Add product to cart. \t\t" +
-                            "8) Checkout. \n" +
-                            "4) Remove product from cart. \t" +
-                            "9) logout.\n" +
-                            "5) Change password.\t\t\t\t" +
-                            "10) exit(w/o logout).\n" + "=======");
+                    "=======\n" +
+                            "1) Shopping. \t\t" +
+                            "4) exit(w/o logout).\n" +
+                            "2) Account details. \n" +
+                            "3) Logout.\n" +
+                            "=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
-                    case "1":
-                        if (findAvailableCart(store))
-                            System.out.println("Cart added successfully");
-                        break;
-                    case "2":
-                        if (releaseCart())
-                            System.out.println("Cart released.");
-                        else
-                            System.out.println("You dont have a cart.");
-                        break;
-                    case "3":
-                        if (store.displayProducts()) {
-                            System.out.println("Insert product ID to add the item to the cart");
-                            addProductToCart(store, s.nextLine());
-                        }
-                        break;
-                    case "4":
-                        if (!removeProductFromCart())
-                            System.out.println("You dont have products in cart.");
-                        break;
-                    case "5":
-                        System.out.println("Password " + (changePassword() ? "changed successfully." : "was not changed."));
-                        break;
-                    case "6":
-                        System.out.println("Address " + (changeAddress() ? "changed successfully." : "was not changed."));
-                        break;
-                    case "7":
-                        System.out.println("Phone " + (changePhoneNumber() ? "changed successfully to - " + getPhoneNumber() : "was not changed."));
-                        break;
-                    case "8":
-                        System.out.println("Your bill:");
-                        if (displayBill()) {
-                            System.out.println("Do you want to pay? y/n");
-                            if (s.nextLine().startsWith("y")) {
-                                if (pay())
-                                    System.out.println("Payment successful.");
-                            }
-                        }
-                        break;
-                    case "9":
-                        logout();
-                    case "10":
-                        selection = "exit";
-                        break;
-                    default:
-                        System.out.println("Selection not recognized, try again.");
+                    case "1" -> shoppingMenu(store);
+                    case "2" -> detailsMenu();
+                    case "3" -> logout();
+                    case "4" -> selection = "exit";
+                    default -> System.out.println("Selection not recognized, try again.");
                 }
             } catch (NumberFormatException numFor) {
                 System.out.println("Invalid value of number");
@@ -425,5 +303,99 @@ public class Customer extends User {
 
     }
 
+    void shoppingMenu(Store store) {
+        Scanner s = new Scanner(System.in);
+        String selection = "";
+        while (!selection.equals("exit")) {
+            System.out.println(
+                    "=======\n" +
+                            "1) Take Cart. \t\t\t\t\t" +
+                            "5) Checkout. \n" +
+                            "2) Display Cart. \t\t\t\t" +
+                            "6) Empty Cart\n" +
+                            "3) Add product to cart.\t\t\t" +
+                            "7) Release Cart.\n" +
+                            "4) Remove product from cart.\t" +
+                            "8) Back.\n" +
+                            "=======");
+            selection = s.nextLine();
+            try {
+                switch (selection) {
+                    case "1" -> {
+
+                        if (findAvailableCart(store))
+                            System.out.println("Cart added successfully");
+                    }
+                    case "2" -> cart.displayCart();
+                    case "3" -> {
+                        if (store.displayProducts()) {
+                            System.out.println("Insert product ID to add the item to the cart");
+                            addProductToCart(store, s.nextLine());
+                        }
+                    }
+                    case "4" -> {
+                        if (!removeProductFromCart())
+                            System.out.println("You dont have products in cart.");
+                    }
+                    case "5" -> {
+
+                        if (displayBill()) {
+                            System.out.println("Do you want to pay? y/n");
+                            if (s.nextLine().startsWith("y")) {
+                                if (pay())
+                                    System.out.println("Payment successful.");
+                            }
+                        }
+                    }
+                    case "6" -> cart.emptyCart();
+                    case "7" -> {
+                        if (releaseCart())
+                            System.out.println("Cart released.");
+                        else
+                            System.out.println("You dont have a cart.");
+                    }
+                    case "8" -> selection = "exit";
+                    default -> System.out.println("Selection not recognized, try again.");
+                }
+            } catch (NumberFormatException numFor) {
+                System.out.println("Invalid value of number");
+            } catch (NullPointerException nu) {
+                System.out.println("You dont own a cart.");
+
+            }
+        }
+
+    }
+
+    void detailsMenu() {
+        Scanner s = new Scanner(System.in);
+        String selection = "";
+        while (!selection.equals("exit")) {
+            System.out.println(
+                    "=======\n" +
+                            "1) Change address. \n" +
+                            "2) Change phone number. \n" +
+                            "3) Change password.\n" +
+                            "4) Back\n" +
+                            "=======");
+            selection = s.nextLine();
+            try {
+                switch (selection) {
+                    case "1" -> System.out.println("Address " + (changeAddress() ? "changed successfully." : "was not changed."));
+                    case "2" -> System.out.println("Phone " + (changePhoneNumber() ? "changed successfully to - " + getPhoneNumber() : "was not changed."));
+                    case "3" -> System.out.println("Password " + (changePassword() ? "changed successfully." : "was not changed."));
+                    case "4" -> selection = "exit";
+                    default -> System.out.println("Selection not recognized, try again.");
+                }
+            } catch (NumberFormatException numFor) {
+                System.out.println("Invalid value of number");
+            }
+
+
+        }
+
+    }
+
 
 }
+

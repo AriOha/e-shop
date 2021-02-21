@@ -57,8 +57,9 @@ public class Cart {
         try {
             productsList.clear();
             calculateTotal();
+            System.out.println("Cart has been cleared.");
         } catch (NullPointerException e) {
-            System.out.println("No cart to remove");
+            System.out.println("No cart to remove.");
         }
     }
 

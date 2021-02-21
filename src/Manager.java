@@ -187,27 +187,26 @@ public class Manager extends User {
             } catch (FileNotFoundException f) {
                 System.out.println("File not found.");
             }
-
         }
     }
 
     void storeMenu() {
         Scanner s = new Scanner(System.in);
         String selection = "";
-        System.out.println("Store management:");
         while (!selection.equals("exit")) {
             System.out.println(
                     "=======\n" +
+                            "Store management:\n" +
                             "1) Display carts status.\n" +
                             "2) Add carts to the shop.\n" +
                             "3) Delete cart from the shop.\n" +
                             "4) Amount of carts in use.\n" +
                             "5) Display sales reports.\n" +
-                            "6) Exit.\n" + "=======");
+                            "6) Back.\n" + "=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
-                    case "1"-> displayCarts();
+                    case "1" -> displayCarts();
                     case "2" -> {
                         System.out.println("How much carts to add? (current " + managedStore.getCartsInUse() + "/" + managedStore.getMaxCarts() + "):");
                         addCartToStore(Integer.parseInt(s.nextLine()));
@@ -227,16 +226,16 @@ public class Manager extends User {
     void customersMenu() {
         Scanner s = new Scanner(System.in);
         String selection = "";
-        System.out.println("Store management:");
         while (!selection.equals("exit")) {
             System.out.println(
                     "=======\n" +
+                            "Customers management:\n" +
                             "1) Show registered customers.\n" +
                             "2) Add new customer.\n" +
                             "3) Remove customer.\n" +
                             "4) Show online customers.\n" +
                             "5) Save customers to file.\n" +
-                            "6) Exit.\n=======");
+                            "6) Back.\n=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
@@ -276,16 +275,18 @@ public class Manager extends User {
     void productsMenu() {
         Scanner s = new Scanner(System.in);
         String selection = "";
-        System.out.println("Products management:");
+        System.out.println("");
         while (!selection.equals("exit")) {
             System.out.println(
-                    "=======\n1) Display products list.\n" +
+                    "=======\n" +
+                            "Products management:\n" +
+                            "1) Display products list.\n" +
                             "2) Add new product\n" +
                             "3) Change price\n" +
                             "4) Chane discount for product\n" +
                             "5) Remove product from the store\n" +
                             "6) Save to a file\n" +
-                            "7) Exit.\n" + "=======");
+                            "7) Back.\n" + "=======");
             selection = s.nextLine();
             try {
                 switch (selection) {
