@@ -27,6 +27,7 @@ public class User {
         pw.println(userName);
         pw.println(password);
     }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }

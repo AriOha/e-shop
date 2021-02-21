@@ -119,18 +119,6 @@ public class Customer extends User {
         this.cart.calculateTotal();
     }
 
-    void removeProductFromCart() {
-        displayProductsInCart();
-        System.out.println("Select product to delete by ID:");
-        Scanner s = new Scanner(System.in);
-        try {
-            removeProductFromCart(s.nextLine());
-        } catch (NumberFormatException n) {
-            System.out.println("ID format not valid");
-        } catch (NullPointerException nu) {
-            System.out.println("Product not founded not found by provided ID");
-        }
-    }
 
 
     private void displayProductsInCart() {
@@ -143,6 +131,18 @@ public class Customer extends User {
             throw new NullPointerException();
     }
 
+    void removeProductFromCart() {
+        displayProductsInCart();
+        System.out.println("Select product to delete by ID:");
+        Scanner s = new Scanner(System.in);
+        try {
+            removeProductFromCart(s.nextLine());
+        } catch (NumberFormatException n) {
+            System.out.println("ID format not valid");
+        } catch (NullPointerException nu) {
+            System.out.println("Product not founded not found by provided ID");
+        }
+    }
 
     void removeProductFromCart(String catalogNumber) {
         Product productToRemove = cart.searchForProduct(catalogNumber);

@@ -41,4 +41,19 @@ public class Validators {
             }
         return true;
     }
+
+    static boolean validProductName(String productName, Store store) {
+        if (validRange(productName.length(), 3, 20)) {
+            for (Product product : store.productsList) {
+                if (product.getProductName().equals(productName)) {
+                    System.out.println("Product name already exists.");
+                    return false;
+                }
+            }
+        } else {
+            System.out.println("Product name not valid.");
+            return false;
+        }
+        return true;
+    }
 }

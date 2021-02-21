@@ -31,7 +31,6 @@ public class Cart {
 
 
     void addItem(Product p) throws NullPointerException {
-        //TODO:
         try {
             if (productsList.size() < maxCapacity) {
                 productsList.add(p);

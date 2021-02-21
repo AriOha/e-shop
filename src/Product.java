@@ -1,3 +1,6 @@
+import java.io.PrintWriter;
+import java.util.Scanner;
+
 public class Product {
 
     static int startID = 1000;
@@ -11,6 +14,16 @@ public class Product {
         catalogId = startID++;
         setPrice(price);
         setDiscount(discount);
+    }
+
+    Product(Scanner s) {
+        this(s.next(), s.nextDouble(), s.nextInt());
+    }
+
+    public void save(PrintWriter pw) {
+        pw.println(productName);
+        pw.println(price);
+        pw.println(discount);
     }
 
     public String getProductName() {
@@ -34,24 +47,30 @@ public class Product {
     }
 
     //    TODO:Exceptions
-    public void setDiscount(int discount) {
-        if (0 <= discount && discount <= 100)
+    boolean setDiscount(int discount) {
+        if (Validators.validRange(discount,0,50)){
             this.discount = discount;
+            return true;
+        }
+        return false;
     }
 
     //    TODO:Exceptions
-    public void setPrice(double price) {
-        if (price > 0)
+    public boolean setPrice(double price) {
+        if (price > 0) {
             this.price = price;
+            return true;
+        }
+        return false;
     }
 
 
-    void changePrice(double newPrice) {
-        setPrice(newPrice);
+    boolean changePrice(double newPrice) {
+        return setPrice(newPrice);
     }
 
-    void changeDiscount(int newDiscount) {
-        setDiscount(newDiscount);
+    boolean changeDiscount(int newDiscount) {
+        return setDiscount(newDiscount);
     }
 
     void displayPrice() {
@@ -60,7 +79,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "ID: " + catalogId +"\t"+productName+",\tPrice: " + price +", <-> "+ discount+"% Discount";
+        return "ID: " + catalogId + "\t" + productName + ",\tPrice: " + price + ", <-> " + discount + "% Discount";
     }
 
 }
