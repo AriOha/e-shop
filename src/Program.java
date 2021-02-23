@@ -1,30 +1,37 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 
+class Settings {
+
+    static String productsPath = "data/Products.txt";
+    static String customersPath = "data/Customers.txt";
+    static int maxElements = 100;
+}
+
 public class Program {
+
 
     static boolean isFileExists(String path) throws FileNotFoundException {
         return (new File(path)).exists();
-
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-
-        String productsPath = "data/Products.txt";
-        String customersPath = "data/Customers.txt";
+    public static void main(String[] args) {
 
         Store myStore = new Store();
-        Manager manager = new Manager("manager", "pass", myStore);
+
+        Manager manager = new Manager("admin", "admin", myStore);
         myStore.addCart();
         myStore.addCart();
 
         try {
-            if (isFileExists(customersPath)) {
-                myStore.loadCustomers(customersPath);
-            }
-            if (isFileExists(productsPath)) {
-                myStore.loadProducts(productsPath);
-            }
+            if (isFileExists(Settings.customersPath)) {
+                myStore.loadCustomers();
+            } else
+                System.out.println("Customers file not found!");
+            if (isFileExists(Settings.productsPath)) {
+                myStore.loadProducts();
+            } else
+                System.out.println("Products file not found!");
         } catch (NullPointerException | FileNotFoundException n) {
             System.out.println("Error while importing");
 //

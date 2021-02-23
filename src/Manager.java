@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -95,8 +96,12 @@ public class Manager extends User {
 
     void addCartToStore(int amount) {
 
-        if (amount <= 0) {
-            System.out.println("amount is incorrect [" + amount + "]");
+        if (amount < 0) {
+            System.out.println("Amount is incorrect [" + amount + "]");
+            return;
+        }
+        if (amount == 0) {
+            System.out.println("No carts added.");
             return;
         }
         int added = 0;
@@ -174,8 +179,8 @@ public class Manager extends User {
                     case "4" -> {
                         System.out.println("Save to files before exit? y/n");
                         if (s.nextLine().startsWith("y")) {
-                            managedStore.saveCustomers("data/Products.txt");
-                            managedStore.saveProducts("data/Products.txt");
+                            managedStore.saveCustomers();
+                            managedStore.saveProducts();
                         }
                         logout();
                         selection = "exit";
@@ -184,7 +189,7 @@ public class Manager extends User {
                 }
             } catch (NumberFormatException numFor) {
                 System.out.println("Invalid value of number");
-            } catch (FileNotFoundException f) {
+            } catch (IOException f) {
                 System.out.println("File not found.");
             }
         }
@@ -256,7 +261,7 @@ public class Manager extends User {
                         displayOnlineCustomers();
                         break;
                     case "5":
-                        managedStore.saveCustomers("data/Customers.txt");
+                        managedStore.saveCustomers();
                         break;
                     case "6":
                         selection = "exit";
@@ -268,6 +273,8 @@ public class Manager extends User {
                 System.out.println("Invalid value of number");
             } catch (FileNotFoundException f) {
                 System.out.println("File not found");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -297,7 +304,7 @@ public class Manager extends User {
                     case "3" -> changePrice();
                     case "4" -> changeDiscount();
                     case "5" -> removeProductFromStore();
-                    case "6" -> managedStore.saveProducts("data/Products.txt");
+                    case "6" -> managedStore.saveProducts();
                     case "7" -> selection = "exit";
                     default -> System.out.println("Selection not recognized, try again.");
                 }
@@ -305,6 +312,8 @@ public class Manager extends User {
                 System.out.println("Invalid value of number");
             } catch (FileNotFoundException f) {
                 System.out.println("File not found");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 

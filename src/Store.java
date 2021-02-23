@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 
 public class Store {
 
-    int maxElements = 10;
+    int maxElements;
     ArrayList<Product> productsList;
     ArrayList<Customer> customersList;
     ArrayList<Cart> cartList;
@@ -19,7 +20,7 @@ public class Store {
         cartList = new ArrayList<>();
         maxProducts = maxElements;
         maxCustomers = maxElements;
-        maxCarts = maxElements;
+        maxCarts = Settings.maxElements;
     }
 
     public int getMaxCarts() {
@@ -252,9 +253,9 @@ public class Store {
     }
 
 
-    void saveCustomers(String filepath) throws FileNotFoundException {
+    void saveCustomers() throws IOException {
         if (registeredCustomers() > 0) {
-            File f = new File(filepath);
+            File f = new File(Settings.customersPath);
             PrintWriter pw = new PrintWriter(f);
             pw.println(customersList.size());
             for (Customer customer : customersList) {
@@ -265,9 +266,9 @@ public class Store {
         } else System.out.println("No Customers to save.");
     }
 
-    void loadCustomers(String filepath) throws FileNotFoundException, NoSuchElementException {
+    void loadCustomers() throws FileNotFoundException, NoSuchElementException {
         User.Membership membership;
-        File f = new File(filepath);
+        File f = new File(Settings.customersPath);
         Scanner lc = new Scanner(f);
         int numOfCustomers = lc.nextInt();
         for (int i = 0; i < numOfCustomers; i++) {
@@ -282,9 +283,9 @@ public class Store {
         System.out.println("Loaded " + customersList.size() + " Customers");
     }
 
-    void saveProducts(String filepath) throws FileNotFoundException {
+    void saveProducts() throws IOException {
         if (getProductsNumInStore() > 0) {
-            File f = new File(filepath);
+            File f = new File(Settings.productsPath);
             PrintWriter pw = new PrintWriter(f);
             pw.println(getProductsNumInStore());
             for (Product product : productsList) {
@@ -295,9 +296,9 @@ public class Store {
         } else System.out.println("No products to save.");
     }
 
-    void loadProducts(String filepath) throws FileNotFoundException, NoSuchElementException {
+    void loadProducts() throws FileNotFoundException, NoSuchElementException {
         try {
-            File f = new File(filepath);
+            File f = new File(Settings.productsPath);
             Scanner lp = new Scanner(f);
             int numOfProducts = lp.nextInt();
             lp.nextLine();

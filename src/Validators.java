@@ -5,7 +5,7 @@ public class Validators {
     }
 
     static boolean validUserName(String username, Store store) {
-        if (validRange(username.length(), 3, 10) && !Character.isDigit(username.charAt(0)))
+        if (validRange(username.length(), 3, 10) && !Character.isDigit(username.charAt(0)) && !username.contains(" "))
             if (store.searchForCustomer(username) == null)
                 return true;
             else {

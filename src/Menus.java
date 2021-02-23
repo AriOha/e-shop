@@ -55,8 +55,8 @@ public class Menus {
         return (success);
     }
 
-    static boolean registerCustomer(Store myStore) {
-        return myStore.registerCustomer();
+    static void registerCustomer(Store myStore) {
+        myStore.registerCustomer();
     }
 
 }
